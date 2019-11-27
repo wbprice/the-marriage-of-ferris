@@ -19,9 +19,7 @@ jobs:
       with:
         args: install
     - name: serverless deploy
-      uses: wbprice/github-action@master
-      with:
-        args: deploy
+        run: npm install -g serverless@1.54.0 && serverless deploy
       env:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
