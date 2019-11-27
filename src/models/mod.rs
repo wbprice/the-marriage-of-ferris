@@ -6,7 +6,10 @@ mod contact_status;
 mod rsvp;
 
 pub use self::{
-    household::Household,
+    household::{
+        Household,
+        CreateHouseholdRequestBody
+    },
     person::Person,
     dietary_restrictions::DietaryRestrictions,
     dish_preferences::DishPreferences,

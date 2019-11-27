@@ -1,9 +1,15 @@
 use uuid::Uuid;
+use serde_derive::{Serialize, Deserialize};
 
 use crate::models::{
     Person,
     RSVP
 };
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct CreateHouseholdRequestBody {
+    pub people: Vec<Person>
+}
 
 pub struct Household {
     pub id: Uuid,

@@ -45,6 +45,6 @@ mod test {
     fn rsvp_new_should_create_a_new_rsvp() {
         let uuid = Uuid::new_v4();
         let person = Person::new("Blaine Price".to_string(), "1wbprice@gmail.com".to_string());
-        let rsvp = RSVP::new(uuid, person);
+        RSVP::new(uuid, person);
     }
 }
