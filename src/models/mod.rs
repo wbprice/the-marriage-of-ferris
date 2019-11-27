@@ -9,7 +9,7 @@ pub use self::{
     household::{
         Household,
         CreateHouseholdRequestBody
-    },
+},
     person::Person,
     dietary_restrictions::DietaryRestrictions,
     dish_preferences::DishPreferences,

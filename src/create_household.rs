@@ -1,6 +1,7 @@
-use lambda_http::{lambda, IntoResponse, Request, Body};
+use lambda_http::{lambda, IntoResponse, Request};
 use lambda_runtime::{error::HandlerError, Context};
-use serde_json::json;
+use serde_json::{json};
+use std::ops::Deref;
 
 mod models;
 use crate::models::{
@@ -16,13 +17,21 @@ fn handler(
     _: Context
 ) -> Result<impl IntoResponse, HandlerError> {
 
-    if let Body::Text(text) = request.body() {
-        dbg!(text);
-        let parsed : CreateHouseholdRequestBody = serde_json::from_str(text)?;
+    // Confirm that the body has the shape we expect it to have.
+    let json = request.body().deref();
+    let payload : Result<CreateHouseholdRequestBody, serde_json::Error> = serde_json::from_slice(json);
 
+    // Handle success and error cases
+    match payload {
+        Ok(payload) => {
+            dbg!(payload);
+        },
+        Err(err) => {
+            dbg!(err);
+            dbg!("something bad happened");
+            Ok(json!("{\"message\": \"you are good at life\"}"))
+        }
     }
-
-    Ok(json!("{\"message\": \"you are good at life\"}"))
 }
 
 #[cfg(test)]
@@ -31,12 +40,27 @@ mod test {
     use lambda_http::{Body};
 
     #[test]
-    fn test_should_handle_create_household_request() {
+    fn test_create_household_should_handle() {
+        let payload = r#"{
+            "people": [
+                {
+                    "name": "Blaine Price",
+                    "email_address": "1wbprice@gmail.com"
+                }
+            ]
+        }"#;
+
+        let request = Request::new(Body::from(payload));
+        handler(request, Context::default()).expect("Expected Ok() value");
+    }
+
+    #[test]
+    fn test_should_not_accept_bad_json() {
         let payload = r#"{
             people: [
                 {
                     "name": "Blaine Price",
-                    "emailAddress": "1wbprice@gmail.com"
+                    "email_address": "1wbprice@gmail.com"
                 }
             ]
         }"#;
