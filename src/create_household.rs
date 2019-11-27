@@ -4,8 +4,15 @@ use serde_json::{json};
 use std::ops::Deref;
 
 mod models;
-use crate::models::{
-    CreateHouseholdRequestBody
+mod services;
+
+use crate::{
+    models::{
+        CreateHouseholdRequestBody
+    },
+    services::{
+        HouseholdService
+    }
 };
 
 fn main() {
