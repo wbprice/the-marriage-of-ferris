@@ -19,6 +19,7 @@ jobs:
       with:
         args: install
     - name: Check for docker
+      uses: serverless/github-action@master
       run: docker --version
     - name: serverless deploy
       uses: serverless/github-action@master
