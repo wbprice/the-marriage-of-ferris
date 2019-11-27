@@ -1,0 +1,25 @@
+{
+  "name": "the-marriage-of-ferris",
+  "version": "0.0.1",
+  "description": "or, how Rustlang and AWS got me married",
+  "main": "index.js",
+  "dependencies": {
+    "serverless-rust": "^0.3.7",
+    "serverless": "^1.58.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wbprice/the-marriage-of-ferris.git"
+  },
+  "keywords": [],
+  "author": "Blaine Price",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/wbprice/the-marriage-of-ferris/issues"
+  },
+  "homepage": "https://github.com/wbprice/the-marriage-of-ferris#readme"
+}
