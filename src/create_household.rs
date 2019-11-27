@@ -29,9 +29,10 @@ fn handler(
         Err(err) => {
             dbg!(err);
             dbg!("something bad happened");
-            Ok(json!("{\"message\": \"you are good at life\"}"))
         }
     }
+
+    Ok(json!("{\"message\": \"you are good at life\"}"))
 }
 
 #[cfg(test)]
