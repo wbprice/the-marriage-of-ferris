@@ -1,0 +1,20 @@
+service: the-marriage-of-ferris
+
+provider:
+  name: aws
+  runtime: rust
+  memorySize: 128
+
+plugins:
+  - serverless-rust
+
+package:
+  individually: true
+
+functions:
+  test:
+    handler: test
+    events:
+      - http:
+          path: test
+          method: get
