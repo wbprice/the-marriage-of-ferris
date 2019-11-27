@@ -4,6 +4,15 @@ provider:
   name: aws
   runtime: rust
   memorySize: 128
+  iamRoleStatments:
+    - Effect: "Allow"
+      Action:
+        - "logs:CreateLogGroup"
+        - "logs:CreateLogStream"
+        - "logs:PutLogEvents"
+        - "logs:DescribeLogStreams"
+      Resource:
+        - arn:aws:logs:*:*:*
 
 plugins:
   - serverless-rust
