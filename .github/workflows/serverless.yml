@@ -9,6 +9,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
+    - name: setup-docker
+      uses: docker-practice/actions-setup-docker@0.0.1
+      with:
+          docker_version: 19.09
+          docker_channel: 18.09
     - name: npm install
       uses: actions/npm@master
       with:
