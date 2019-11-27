@@ -18,11 +18,8 @@ jobs:
       uses: actions/npm@master
       with:
         args: install
-    - name: Check for docker
-      uses: serverless/github-action@master
-      run: docker --version
     - name: serverless deploy
-      uses: serverless/github-action@master
+      uses: wbprice/github-action@master
       with:
         args: deploy
       env:
