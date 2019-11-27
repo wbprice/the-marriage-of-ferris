@@ -18,8 +18,10 @@ jobs:
       uses: actions/npm@master
       with:
         args: install
-    - name: serverless deploy
-      run: npm install -g serverless@1.54.0 && serverless deploy
+    - name: serverless install
+      uses: serverless/github-action@master
+    - name: deploy
+      run: serverless deploy
       env:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
