@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: check for docker
-      runs: docker --version
+      run: docker --version
     - uses: actions/checkout@master
     - name: npm install
       uses: actions/npm@master
