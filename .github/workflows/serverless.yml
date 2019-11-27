@@ -8,12 +8,9 @@ jobs:
     name: deploy
     runs-on: ubuntu-latest
     steps:
+    - name: check for docker
+      runs: docker --version
     - uses: actions/checkout@master
-    - name: setup-docker
-      uses: docker-practice/actions-setup-docker@0.0.1
-      with:
-        docker_version: 19.09
-        docker_channel: stable
     - name: npm install
       uses: actions/npm@master
       with:
