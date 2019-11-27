@@ -5,8 +5,14 @@ edition = "2018"
 
 [dependencies]
 lambda_runtime = "0.2"
+serde_derive = "1.0"
 serde_json = "1.0"
+uuid = { version = "0.7", features = ["v4", "serde"] }
 
 [[bin]]
 name = "test"
 path = "src/test/main.rs"
+
+[[bin]]
+name = "create_household"
+path = "src/create_household.rs"
