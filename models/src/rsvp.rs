@@ -1,4 +1,5 @@
 use uuid::Uuid;
+use serde_derive::{Serialize, Deserialize};
 
 use crate::{
     Person,
@@ -7,6 +8,7 @@ use crate::{
     DishPreferences
 };
 
+#[derive(Debug)]
 pub struct RSVP {
     pub household_id: Uuid,
     pub id: Uuid,

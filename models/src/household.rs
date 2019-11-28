@@ -11,6 +11,7 @@ pub struct CreateHouseholdRequestBody {
     pub people: Vec<Person>
 }
 
+#[derive(Debug)]
 pub struct Household {
     pub id: Uuid,
     pub rsvps: Vec<RSVP>

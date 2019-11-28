@@ -31,7 +31,8 @@ fn handler(
             let household = Household::new(Some(payload.people));
 
             match household_service.put(household) {
-                Ok(_response) => {
+                Ok(response) => {
+                    dbg!(response);
                     Ok(json!("{\"message\": \"you are good at life\"}"))
                 },
                 Err(_put_item_error) => {
