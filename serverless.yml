@@ -21,12 +21,6 @@ package:
   individually: true
 
 functions:
-  test:
-    handler: test
-    events:
-      - http:
-          path: test
-          method: get
 
   create_household:
     handler: create_household

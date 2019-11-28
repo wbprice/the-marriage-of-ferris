@@ -28,11 +28,11 @@ fn handler(
     // Confirm that the body has the shape we expect it to have.
     let json = request.body().deref();
     let payload : Result<CreateHouseholdRequestBody, serde_json::Error> = serde_json::from_slice(json);
-    let household_service = HouseholdService::new();
 
     // Handle success and error cases
     match payload {
         Ok(payload) => {
+            let household_service = HouseholdService::new();
             let household = Household::new(Some(payload.people));
 
             match household_service.put(household) {

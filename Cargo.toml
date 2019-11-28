@@ -18,7 +18,3 @@ rusoto_core = "0.42.0"
 [[bin]]
 name = "test"
 path = "src/test/main.rs"
-
-[[bin]]
-name = "create_household"
-path = "src/create_household.rs"
