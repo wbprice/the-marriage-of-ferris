@@ -1,20 +1,2 @@
-[package]
-name = "test"
-version = "0.1.0"
-edition = "2018"
-
-[dependencies]
-lambda_runtime = "0.2"
-lambda_http = "0.1.1"
-serde = "1.0"
-serde_derive = "1.0"
-serde_json = "1.0"
-serde_dynamodb = "0.4.0"
-uuid = { version = "0.7", features = ["v4", "serde"] }
-log = "0.4.8"
-rusoto_dynamodb = "0.42.0"
-rusoto_core = "0.42.0"
-
-[[bin]]
-name = "create-household"
-path = "src/create-household.rs"
+[workspace]
+members = ["src/create_household", "src/models", "src/services"]
