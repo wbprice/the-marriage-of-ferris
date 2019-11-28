@@ -27,3 +27,10 @@ functions:
       - http:
           path: test
           method: get
+
+  create_household:
+    handler: create_household
+    events:
+      - http:
+          path: household
+          method: put

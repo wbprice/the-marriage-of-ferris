@@ -17,7 +17,7 @@ pub struct Household {
 }
 
 impl Household {
-    fn new(people: Option<Vec<Person>>) -> Household {
+    pub fn new(people: Option<Vec<Person>>) -> Household {
         let id = Uuid::new_v4();
 
         match people {

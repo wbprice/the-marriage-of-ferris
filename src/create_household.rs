@@ -8,7 +8,8 @@ mod services;
 
 use crate::{
     models::{
-        CreateHouseholdRequestBody
+        CreateHouseholdRequestBody,
+        Household
     },
     services::{
         HouseholdService
@@ -27,19 +28,28 @@ fn handler(
     // Confirm that the body has the shape we expect it to have.
     let json = request.body().deref();
     let payload : Result<CreateHouseholdRequestBody, serde_json::Error> = serde_json::from_slice(json);
+    let household_service = HouseholdService::new();
 
     // Handle success and error cases
     match payload {
         Ok(payload) => {
-            dbg!(payload);
+            let household = Household::new(Some(payload.people));
+
+            match household_service.put(household) {
+                Ok(_response) => {
+                    Ok(json!("{\"message\": \"you are good at life\"}"))
+                },
+                Err(_put_item_error) => {
+                    Ok(json!("{\"message\": \"you are not good at life\"}"))
+                }
+            }
         },
         Err(err) => {
             dbg!(err);
             dbg!("something bad happened");
+            Ok(json!("{\"message\": \"you are not good at life\"}"))
         }
     }
-
-    Ok(json!("{\"message\": \"you are good at life\"}"))
 }
 
 #[cfg(test)]
