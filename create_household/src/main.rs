@@ -32,17 +32,17 @@ fn handler(
 
             match household_service.put(household) {
                 Ok(response) => {
-                    Ok(json!(serde_json::to_string(&response)?))
+                    Ok(serde_json::to_string(&response)?)
                 },
                 Err(_put_item_error) => {
-                    Ok(json!("{\"message\": \"you are not good at life\"}"))
+                    Ok(json!({"message": "you are not good at life"}).to_string())
                 }
             }
         },
         Err(err) => {
             dbg!(err);
             dbg!("something bad happened");
-            Ok(json!("{\"message\": \"you are not good at life. base case\"}"))
+            Ok(json!({"message": "you are not good at life. base case"}).to_string())
         }
     }
 }
