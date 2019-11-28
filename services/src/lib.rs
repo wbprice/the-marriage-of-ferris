@@ -1,5 +1,3 @@
 mod household;
 
-pub use self::{
-    household::HouseholdService
-};
+pub use self::household::HouseholdService;
