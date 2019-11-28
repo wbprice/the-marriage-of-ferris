@@ -8,7 +8,7 @@ use crate::{
     DishPreferences
 };
 
-#[derive(Debug)]
+#[derive(Debug, Serialize, Deserialize)]
 pub struct RSVP {
     pub household_id: Uuid,
     pub id: Uuid,
