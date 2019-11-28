@@ -1,2 +1,2 @@
 [workspace]
-members = ["src/create_household", "src/models", "src/services"]
+members = ["create_household", "models", "services"]

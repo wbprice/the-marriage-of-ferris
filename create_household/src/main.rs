@@ -3,17 +3,12 @@ use lambda_runtime::{error::HandlerError, Context};
 use serde_json::{json};
 use std::ops::Deref;
 
-mod models;
-mod services;
-
-use crate::{
-    models::{
-        CreateHouseholdRequestBody,
-        Household
-    },
-    services::{
-        HouseholdService
-    }
+use models::{
+    CreateHouseholdRequestBody,
+    Household
+};
+use services::{
+    HouseholdService
 };
 
 fn main() {

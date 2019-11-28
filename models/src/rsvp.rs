@@ -1,12 +1,10 @@
 use uuid::Uuid;
 
 use crate::{
-    models::{
-        Person,
-        ContactStatus,
-        DietaryRestrictions,
-        DishPreferences
-    }
+    Person,
+    ContactStatus,
+    DietaryRestrictions,
+    DishPreferences
 };
 
 pub struct RSVP {

@@ -1,7 +1,7 @@
 use uuid::Uuid;
 use serde_derive::{Serialize, Deserialize};
 
-use crate::models::{
+use crate::{
     Person,
     RSVP
 };

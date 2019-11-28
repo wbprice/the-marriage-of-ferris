@@ -23,7 +23,7 @@ package:
 functions:
 
   create-household:
-    handler: create-household
+    handler: create_household
     events:
       - http:
           path: household

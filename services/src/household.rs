@@ -7,7 +7,7 @@ use rusoto_dynamodb::{
 };
 use serde_dynamodb;
 
-use crate::{models::{Household}};
+use models::{Household};
 
 pub struct HouseholdService {
     client: DynamoDbClient
