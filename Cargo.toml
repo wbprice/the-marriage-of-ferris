@@ -16,5 +16,5 @@ rusoto_dynamodb = "0.42.0"
 rusoto_core = "0.42.0"
 
 [[bin]]
-name = "test"
-path = "src/test/main.rs"
+name = "create-household"
+path = "src/create-household.rs"

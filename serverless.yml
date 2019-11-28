@@ -22,8 +22,8 @@ package:
 
 functions:
 
-  create_household:
-    handler: create_household
+  create-household:
+    handler: create-household
     events:
       - http:
           path: household
