@@ -42,7 +42,7 @@ fn handler(
         Err(err) => {
             dbg!(err);
             dbg!("something bad happened");
-            Ok(json!("{\"message\": \"you are not good at life\"}"))
+            Ok(json!("{\"message\": \"you are not good at life. base case\"}"))
         }
     }
 }
