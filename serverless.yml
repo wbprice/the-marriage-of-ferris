@@ -12,7 +12,7 @@ provider:
         - "logs:PutLogEvents"
         - "logs:DescribeLogStreams"
       Resource:
-        - arn:aws:logs:*:*:*
+        - "*"
 
 plugins:
   - serverless-rust
