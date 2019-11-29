@@ -1,5 +1,7 @@
-use lambda_http::{lambda, IntoResponse, Request};
+use lambda_http::{lambda, IntoResponse, Request, Response};
 use lambda_runtime::{error::HandlerError, Context};
+use rusoto_core::RusotoError;
+use rusoto_dynamodb::BatchWriteItemError;
 use serde_json::json;
 use std::ops::Deref;
 
@@ -23,17 +25,30 @@ fn handler(request: Request, _: Context) -> Result<impl IntoResponse, HandlerErr
 
             match HouseholdService::put(household) {
                 Ok(response) => Ok(serde_json::to_string(&response)?),
-                Err(put_item_error) => {
-                    dbg!(put_item_error);
-                    Ok(json!({"message": "you are not good at life"}).to_string())
-                }
+                Err(error_type) => match error_type {
+                    RusotoError::Service(service_error) => match service_error {
+                        BatchWriteItemError::InternalServerError(string) => Ok(Response::builder()
+                            .header("Access-Control-Allow-Origin", "*")
+                            .status(500)
+                            .body(json!({ "message": string }).to_string())
+                            .unwrap()
+                            .body()
+                            .to_string()),
+                        _ => Ok(Response::builder()
+                            .header("Access-Control-Allow-Origin", "*")
+                            .status(500)
+                            .body(json!({"message": "An unknown error occurred"}).to_string())
+                            .unwrap()
+                            .body()
+                            .to_string()),
+                    },
+                    _ => {
+                        unimplemented!();
+                    }
+                },
             }
         }
-        Err(err) => {
-            dbg!(err);
-            dbg!("something bad happened");
-            Ok(json!({"message": "you are not good at life. base case"}).to_string())
-        }
+        Err(_) => Ok(json!({"message": "you are not good at life. base case"}).to_string()),
     }
 }
 
