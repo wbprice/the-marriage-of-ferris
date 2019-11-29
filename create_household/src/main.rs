@@ -27,10 +27,9 @@ fn handler(
     // Handle success and error cases
     match payload {
         Ok(payload) => {
-            let household_service = HouseholdService::new();
             let household = Household::new(Some(payload.people));
 
-            match household_service.put(household) {
+            match HouseholdService::put(household) {
                 Ok(response) => {
                     Ok(serde_json::to_string(&response)?)
                 },

@@ -4,23 +4,16 @@ use std::collections::HashMap;
 use std::env;
 
 use rusoto_dynamodb::{
-    BatchWriteItemInput, DynamoDbClient, PutItemError, PutRequest, WriteRequest,
+    BatchWriteItemInput, DynamoDb, DynamoDbClient, PutItemError, PutRequest, WriteRequest,
 };
 
 use models::Household;
 
-pub struct HouseholdService {
-    client: DynamoDbClient,
-}
+pub struct HouseholdService;
 
 impl HouseholdService {
-    pub fn new() -> HouseholdService {
-        HouseholdService {
-            client: DynamoDbClient::new(Region::UsEast1),
-        }
-    }
-
-    pub fn put(&self, household: Household) -> Result<Household, PutItemError> {
+    pub fn put(household: Household) -> Result<Household, PutItemError> {
+        let client = DynamoDbClient::new(Region::UsEast1);
         let put_requests = household
             .rsvps
             .into_iter()
@@ -41,11 +34,7 @@ impl HouseholdService {
             ..BatchWriteItemInput::default()
         };
 
-        match self
-            .client
-            .batch_write_item(batch_write_request_input)
-            .sync()
-        {
+        match client.batch_write_item(batch_write_request_input).sync() {
             Ok(_result) => Ok(household),
             Err(error) => Err(error),
         }
