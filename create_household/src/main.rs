@@ -1,6 +1,5 @@
 use lambda_http::{lambda, IntoResponse, Request, Response};
 use lambda_runtime::{error::HandlerError, Context};
-use rusoto_core::RusotoError;
 use rusoto_dynamodb::BatchWriteItemError;
 use serde_json::json;
 use std::ops::Deref;
@@ -26,29 +25,32 @@ fn handler(request: Request, _: Context) -> Result<impl IntoResponse, HandlerErr
             match HouseholdService::put(household) {
                 Ok(response) => Ok(serde_json::to_string(&response)?),
                 Err(error_type) => match error_type {
-                    RusotoError::Service(service_error) => match service_error {
-                        BatchWriteItemError::InternalServerError(string) => Ok(Response::builder()
-                            .header("Access-Control-Allow-Origin", "*")
-                            .status(500)
-                            .body(json!({ "message": string }).to_string())
-                            .unwrap()
-                            .body()
-                            .to_string()),
-                        _ => Ok(Response::builder()
-                            .header("Access-Control-Allow-Origin", "*")
-                            .status(500)
-                            .body(json!({"message": "An unknown error occurred"}).to_string())
-                            .unwrap()
-                            .body()
-                            .to_string()),
-                    },
-                    _ => {
-                        unimplemented!();
-                    }
+                    BatchWriteItemError::InternalServerError(string) => Ok(Response::builder()
+                        .header("Access-Control-Allow-Origin", "*")
+                        .status(500)
+                        .body(json!({ "message": string }).to_string())
+                        .unwrap()
+                        .body()
+                        .to_string()),
+                    _ => Ok(Response::builder()
+                        .header("Access-Control-Allow-Origin", "*")
+                        .status(500)
+                        .body(json!({"message": "An unknown error occurred"}).to_string())
+                        .unwrap()
+                        .body()
+                        .to_string()),
                 },
             }
         }
-        Err(_) => Ok(json!({"message": "you are not good at life. base case"}).to_string()),
+        Err(serde_error) => match serde_error {
+            _ => Ok(Response::builder()
+                .header("Access-Control-Allow-Origin", "*")
+                .status(500)
+                .body(json!({"message": "An unknown error occurred"}).to_string())
+                .unwrap()
+                .body()
+                .to_string()),
+        },
     }
 }
 
