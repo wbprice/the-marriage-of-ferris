@@ -16,7 +16,7 @@ impl HouseholdService {
         let client = DynamoDbClient::new(Region::UsEast1);
         let put_requests: Vec<WriteRequest> = household
             .rsvps
-            .into_iter()
+            .iter()
             .map(|rsvp| WriteRequest {
                 put_request: Some(PutRequest {
                     item: serde_dynamodb::to_hashmap(&rsvp).unwrap(),
@@ -26,7 +26,6 @@ impl HouseholdService {
             .collect();
 
         let mut request_items: HashMap<String, Vec<WriteRequest>> = HashMap::new();
-
         request_items.insert(env::var("RSVP_TABLE_NAME").unwrap(), put_requests);
 
         let batch_write_request_input = BatchWriteItemInput {

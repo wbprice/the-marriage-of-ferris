@@ -5,7 +5,7 @@ provider:
   runtime: rust
   stage: dev
   memorySize: 128
-  iamRoleStatments:
+  iamRoleStatements:
     - Effect: "Allow"
       Action:
         - "logs:CreateLogGroup"
@@ -14,12 +14,17 @@ provider:
         - "logs:DescribeLogStreams"
       Resource:
         - "*"
+    - Effect: "Allow"
+      Action:
+        - "dynamodb:BatchWriteItem"
+      Resource:
+        - "*"
+  environment:
+    RSVP_TABLE_NAME: ${self:custom.rsvpTableName}
 
 custom:
   rsvpTableName: ${self:service}-${opt:stage, self:provider.stage}-rsvp-table
 
-environment:
-  RSVP_TABLE_NAME: ${self:custom.rsvpTableName}
 
 plugins:
   - serverless-rust
@@ -38,8 +43,8 @@ functions:
 
 resources:
   Resources:
-    rsvp-table:
-      Type: AWS:DynamoDB::Table
+    RSVPTable:
+      Type: AWS::DynamoDB::Table
       Properties:
         TableName: ${self:custom.rsvpTableName}
         AttributeDefinitions:
@@ -52,3 +57,6 @@ resources:
             KeyType: HASH
           - AttributeName: name
             KeyType: RANGE
+        ProvisionedThroughput:
+          ReadCapacityUnits: 5
+          WriteCapacityUnits: 5

@@ -23,7 +23,8 @@ fn handler(request: Request, _: Context) -> Result<impl IntoResponse, HandlerErr
 
             match HouseholdService::put(household) {
                 Ok(response) => Ok(serde_json::to_string(&response)?),
-                Err(_put_item_error) => {
+                Err(put_item_error) => {
+                    dbg!(put_item_error);
                     Ok(json!({"message": "you are not good at life"}).to_string())
                 }
             }
