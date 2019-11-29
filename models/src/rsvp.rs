@@ -1,12 +1,7 @@
+use serde_derive::{Deserialize, Serialize};
 use uuid::Uuid;
-use serde_derive::{Serialize, Deserialize};
 
-use crate::{
-    Person,
-    ContactStatus,
-    DietaryRestrictions,
-    DishPreferences
-};
+use crate::{ContactStatus, DietaryRestrictions, DishPreferences, Person};
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct RSVP {
@@ -18,7 +13,7 @@ pub struct RSVP {
     pub contact_status: ContactStatus,
     pub dietary_restrictions: Option<DietaryRestrictions>,
     pub dietary_restrictions_other: Option<String>,
-    pub dish_preferences: Option<DishPreferences>
+    pub dish_preferences: Option<DishPreferences>,
 }
 
 impl RSVP {

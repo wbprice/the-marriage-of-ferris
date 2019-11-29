@@ -1,23 +1,23 @@
-use serde_derive::{Serialize, Deserialize};
+use serde_derive::{Deserialize, Serialize};
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Person {
     pub email_address: String,
-    pub name: String
+    pub name: String,
 }
 
 impl Person {
     pub fn new(name: String, email_address: String) -> Person {
         Person {
             name,
-            email_address
+            email_address,
         }
     }
 }
 
 #[cfg(test)]
 mod tests {
-use super::*;
+    use super::*;
 
     #[test]
     fn person_new_should_create_a_new_person() {

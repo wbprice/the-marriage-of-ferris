@@ -1,28 +1,20 @@
 use lambda_http::{lambda, IntoResponse, Request};
 use lambda_runtime::{error::HandlerError, Context};
-use serde_json::{json};
+use serde_json::json;
 use std::ops::Deref;
 
-use models::{
-    CreateHouseholdRequestBody,
-    Household
-};
-use services::{
-    HouseholdService
-};
+use models::{CreateHouseholdRequestBody, Household};
+use services::HouseholdService;
 
 fn main() {
     lambda!(handler)
 }
 
-fn handler(
-    request: Request,
-    _: Context
-) -> Result<impl IntoResponse, HandlerError> {
-
+fn handler(request: Request, _: Context) -> Result<impl IntoResponse, HandlerError> {
     // Confirm that the body has the shape we expect it to have.
     let json = request.body().deref();
-    let payload : Result<CreateHouseholdRequestBody, serde_json::Error> = serde_json::from_slice(json);
+    let payload: Result<CreateHouseholdRequestBody, serde_json::Error> =
+        serde_json::from_slice(json);
 
     // Handle success and error cases
     match payload {
@@ -30,14 +22,12 @@ fn handler(
             let household = Household::new(Some(payload.people));
 
             match HouseholdService::put(household) {
-                Ok(response) => {
-                    Ok(serde_json::to_string(&response)?)
-                },
+                Ok(response) => Ok(serde_json::to_string(&response)?),
                 Err(_put_item_error) => {
                     Ok(json!({"message": "you are not good at life"}).to_string())
                 }
             }
-        },
+        }
         Err(err) => {
             dbg!(err);
             dbg!("something bad happened");
@@ -49,7 +39,7 @@ fn handler(
 #[cfg(test)]
 mod test {
     use super::*;
-    use lambda_http::{Body};
+    use lambda_http::Body;
 
     #[test]
     fn test_create_household_should_handle() {

@@ -1,20 +1,17 @@
+use serde_derive::{Deserialize, Serialize};
 use uuid::Uuid;
-use serde_derive::{Serialize, Deserialize};
 
-use crate::{
-    Person,
-    RSVP
-};
+use crate::{Person, RSVP};
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct CreateHouseholdRequestBody {
-    pub people: Vec<Person>
+    pub people: Vec<Person>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Household {
     pub id: Uuid,
-    pub rsvps: Vec<RSVP>
+    pub rsvps: Vec<RSVP>,
 }
 
 impl Household {
@@ -23,23 +20,14 @@ impl Household {
 
         match people {
             Some(people) => {
-                let rsvps : Vec<RSVP> = people
+                let rsvps: Vec<RSVP> = people
                     .into_iter()
                     .map(|person| RSVP::new(id, person))
                     .collect();
 
-                Household {
-                    id,
-                    rsvps
-                }
+                Household { id, rsvps }
             }
-            None => {
-                Household {
-                    id, 
-                    rsvps: vec!()
-                }
-            } 
+            None => Household { id, rsvps: vec![] },
         }
     }
 }
-

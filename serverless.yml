@@ -3,12 +3,8 @@ service: the-marriage-of-ferris
 provider:
   name: aws
   runtime: rust
+  stage: dev
   memorySize: 128
-  custom:
-    rsvpTableName: ${self:service}-${self:env}-rsvp-table
-  environment:
-    RSVP_TABLE_NAME: ${self:custom.rsvpTableName}
-
   iamRoleStatments:
     - Effect: "Allow"
       Action:
@@ -18,6 +14,12 @@ provider:
         - "logs:DescribeLogStreams"
       Resource:
         - "*"
+
+custom:
+  rsvpTableName: ${self:service}-${opt:stage, self:provider.stage}-rsvp-table
+
+environment:
+  RSVP_TABLE_NAME: ${self:custom.rsvpTableName}
 
 plugins:
   - serverless-rust

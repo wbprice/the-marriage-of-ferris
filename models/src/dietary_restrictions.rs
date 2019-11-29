@@ -1,4 +1,4 @@
-use serde_derive::{Serialize, Deserialize};
+use serde_derive::{Deserialize, Serialize};
 
 #[derive(Debug, Serialize, Deserialize)]
 pub enum DietaryRestrictions {
@@ -6,5 +6,5 @@ pub enum DietaryRestrictions {
     Vegan,
     Pescatarian,
     GlutenFree,
-    DairyFree
+    DairyFree,
 }

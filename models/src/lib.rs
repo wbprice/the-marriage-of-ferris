@@ -1,18 +1,15 @@
-mod household;
-mod person;
+mod contact_status;
 mod dietary_restrictions;
 mod dish_preferences;
-mod contact_status;
+mod household;
+mod person;
 mod rsvp;
 
 pub use self::{
-    household::{
-        Household,
-        CreateHouseholdRequestBody
-    },
-    person::Person,
+    contact_status::ContactStatus,
     dietary_restrictions::DietaryRestrictions,
     dish_preferences::DishPreferences,
-    contact_status::ContactStatus,
-    rsvp::RSVP
+    household::{CreateHouseholdRequestBody, Household},
+    person::Person,
+    rsvp::RSVP,
 };

@@ -1,4 +1,4 @@
-use rusoto_core::Region;
+use rusoto_core::{Region, RusotoError};
 use serde_dynamodb;
 use std::collections::HashMap;
 use std::env;
@@ -12,9 +12,9 @@ use models::Household;
 pub struct HouseholdService;
 
 impl HouseholdService {
-    pub fn put(household: Household) -> Result<Household, BatchWriteItemError> {
+    pub fn put(household: Household) -> Result<Household, RusotoError<BatchWriteItemError>> {
         let client = DynamoDbClient::new(Region::UsEast1);
-        let put_requests = household
+        let put_requests: Vec<WriteRequest> = household
             .rsvps
             .into_iter()
             .map(|rsvp| WriteRequest {
