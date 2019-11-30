@@ -12,7 +12,7 @@ use models::Household;
 pub struct HouseholdService;
 
 impl HouseholdService {
-    pub fn put(household: Household) -> Result<Household, BatchWriteItemError> {
+    pub fn put(household: Household) -> Result<Household, RusotoError<BatchWriteItemError>> {
         let client = DynamoDbClient::new(Region::UsEast1);
         let put_requests: Vec<WriteRequest> = household
             .rsvps
@@ -35,12 +35,7 @@ impl HouseholdService {
 
         match client.batch_write_item(batch_write_request_input).sync() {
             Ok(_result) => Ok(household),
-            Err(error) => match error {
-                RusotoError::Service(service_error) => Err(service_error),
-                _ => {
-                    panic!(error);
-                }
-            },
+            Err(error) => Err(error),
         }
     }
 }
