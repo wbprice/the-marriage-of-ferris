@@ -3,8 +3,9 @@ service: the-marriage-of-ferris
 provider:
   name: aws
   runtime: rust
+  stage: dev
   memorySize: 128
-  iamRoleStatments:
+  iamRoleStatements:
     - Effect: "Allow"
       Action:
         - "logs:CreateLogGroup"
@@ -12,7 +13,18 @@ provider:
         - "logs:PutLogEvents"
         - "logs:DescribeLogStreams"
       Resource:
-        - arn:aws:logs:*:*:*
+        - "*"
+    - Effect: "Allow"
+      Action:
+        - "dynamodb:BatchWriteItem"
+      Resource:
+        - "*"
+  environment:
+    RSVP_TABLE_NAME: ${self:custom.rsvpTableName}
+
+custom:
+  rsvpTableName: ${self:service}-${opt:stage, self:provider.stage}-rsvp-table
+
 
 plugins:
   - serverless-rust
@@ -21,9 +33,30 @@ package:
   individually: true
 
 functions:
-  test:
-    handler: test
+
+  create-household:
+    handler: create_household
     events:
       - http:
-          path: test
-          method: get
+          path: household
+          method: put
+
+resources:
+  Resources:
+    RSVPTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:custom.rsvpTableName}
+        AttributeDefinitions:
+          - AttributeName: household_id
+            AttributeType: S
+          - AttributeName: name
+            AttributeType: S
+        KeySchema:
+          - AttributeName: household_id
+            KeyType: HASH
+          - AttributeName: name
+            KeyType: RANGE
+        ProvisionedThroughput:
+          ReadCapacityUnits: 5
+          WriteCapacityUnits: 5
