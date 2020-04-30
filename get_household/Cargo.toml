@@ -1,0 +1,16 @@
+[package]
+name = "create_household"
+version = "0.1.0"
+edition = "2018"
+
+[dependencies]
+lambda_runtime = "0.2"
+lambda_http = "0.1.1"
+serde = "1.0"
+serde_derive = "1.0"
+serde_json = "1.0"
+rusoto_core = "0.40.0"
+rusoto_dynamodb = "0.40.0"
+uuid = { version = "0.7", features = ["v4", "serde"] }
+models = { path = "../models" }
+services = { path = "../services" }

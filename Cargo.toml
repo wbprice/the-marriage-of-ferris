@@ -1,2 +1,2 @@
 [workspace]
-members = ["create_household", "models", "services"]
+members = ["create_household", "get_household", "models", "services"]

@@ -1,7 +1,6 @@
 use lambda_http::{lambda, IntoResponse, Request, Response};
 use lambda_runtime::{error::HandlerError, Context};
 use rusoto_core::RusotoError;
-use rusoto_dynamodb::BatchWriteItemError;
 use serde_json::json;
 use std::ops::Deref;
 
