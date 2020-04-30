@@ -76,7 +76,7 @@ impl HouseholdService {
                     }))
                 }
                 None => {
-                    Ok(None))
+                    Ok(None)
                 }
             },
             Err(error) => Err(error)

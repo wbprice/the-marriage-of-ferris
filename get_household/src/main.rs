@@ -1,5 +1,6 @@
 use lambda_http::{lambda, IntoResponse, Request, Response};
 use lambda_runtime::{error::HandlerError, Context};
+use uuid::Uuid;
 
 use services::HouseholdService;
 
@@ -29,7 +30,7 @@ fn handler(request: Request, _: Context) -> Result<impl IntoResponse, HandlerErr
                     Ok(Response::builder()
                         .header("Access-Control-Allow-Origin", "*")
                         .status(200)
-                        .body(serde_json::to_string(&record)?)
+                        .body(serde_json::to_string("{}")?)
                         .unwrap()
                         .body()
                         .to_string())
@@ -37,7 +38,13 @@ fn handler(request: Request, _: Context) -> Result<impl IntoResponse, HandlerErr
             }
         },
         Err(error) => {
-
+            Ok(Response::builder()
+                .header("Access-Control-Allow-Origin", "*")
+                .status(500)
+                .body(serde_json::to_string("{}")?)
+                .unwrap()
+                .body()
+                .to_string())
         }
     }
 }
