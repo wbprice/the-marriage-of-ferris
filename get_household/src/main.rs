@@ -1,4 +1,4 @@
-use lambda_http::{lambda, IntoResponse, Request, Response};
+use lambda_http::{lambda, IntoResponse, Request, RequestExt, Response};
 use lambda_runtime::{error::HandlerError, Context};
 use uuid::Uuid;
 
