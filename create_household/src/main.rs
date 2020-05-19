@@ -27,25 +27,17 @@ fn handler(request: Request, _: Context) -> Result<impl IntoResponse, HandlerErr
                 Err(rusoto_error) => match rusoto_error {
                     RusotoError::Service(service_error) => match service_error {
                         _ => {
-                            dbg!(service_error);
                             Ok(Response::builder()
                                 .header("Access-Control-Allow-Origin", "*")
                                 .status(500)
-                                .body(json!({"message": "An service error occurred"}).to_string())
-                                .unwrap()
-                                .body()
-                                .to_string())
+                                .body(json!({"message": "An service error occurred"})))
                         }
                     },
                     _ => {
-                        dbg!(rusoto_error);
                         Ok(Response::builder()
                             .header("Access-Control-Allow-Origin", "*")
                             .status(500)
-                            .body(json!({"message": "An unknown error occurred"}).to_string())
-                            .unwrap()
-                            .body()
-                            .to_string())
+                            .body(json!({"message": "An unknown error occurred"})));
                     }
                 },
             }
@@ -54,10 +46,7 @@ fn handler(request: Request, _: Context) -> Result<impl IntoResponse, HandlerErr
             _ => Ok(Response::builder()
                 .header("Access-Control-Allow-Origin", "*")
                 .status(500)
-                .body(json!({"message": "An unknown error occurred"}).to_string())
-                .unwrap()
-                .body()
-                .to_string()),
+                .body(json!({"message": "An unknown error occurred"})));
         },
     }
 }
