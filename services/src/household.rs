@@ -1,23 +1,19 @@
 use rusoto_core::{Region, RusotoError};
+use rusoto_dynamodb::{
+    AttributeValue, BatchWriteItemError, BatchWriteItemInput, DynamoDb, DynamoDbClient, PutRequest,
+    QueryError, QueryInput, WriteRequest,
+};
 use serde_dynamodb;
 use std::collections::HashMap;
 use std::env;
 use uuid::Uuid;
 
-use rusoto_dynamodb::{
-    BatchWriteItemError, BatchWriteItemInput, DynamoDb, DynamoDbClient, PutRequest, QueryError,
-    QueryInput, WriteRequest, AttributeValue
-};
-
-use models::{
-    Household,
-    RSVP
-};
+use models::{Household, RSVP};
 
 pub struct HouseholdService;
 
 impl HouseholdService {
-    pub fn put(household: Household) -> Result<Household, RusotoError<BatchWriteItemError>> {
+    pub async fn put(household: Household) -> Result<Household, RusotoError<BatchWriteItemError>> {
         let client = DynamoDbClient::new(Region::UsEast1);
         let put_requests: Vec<WriteRequest> = household
             .rsvps
@@ -38,13 +34,13 @@ impl HouseholdService {
             ..BatchWriteItemInput::default()
         };
 
-        match client.batch_write_item(batch_write_request_input).sync() {
+        match client.batch_write_item(batch_write_request_input).await {
             Ok(_result) => Ok(household),
-            Err(error) => Err(error),
+            Err(err) => Err(err)
         }
     }
 
-    pub fn get(household_id: Uuid) -> Result<Option<Household>, RusotoError<QueryError>> {
+    pub async fn get(household_id: Uuid) -> Result<Option<Household>, RusotoError<QueryError>> {
         let client = DynamoDbClient::new(Region::UsEast1);
         let mut query = HashMap::new();
         query.insert(
@@ -62,24 +58,23 @@ impl HouseholdService {
             ..QueryInput::default()
         };
 
-        match client.query(query_input).sync() {
+        match client.query(query_input).await {
             Ok(response) => match response.items {
                 Some(items) => {
-                    let rsvps : Vec<RSVP> = items.into_iter()
+                    let rsvps: Vec<RSVP> = items
+                        .into_iter()
                         .map(|item| serde_dynamodb::from_hashmap(item).unwrap())
                         .collect();
-                    let household_id : Uuid = rsvps[0].household_id;
+                    let household_id: Uuid = rsvps[0].household_id;
 
                     Ok(Some(Household {
                         id: household_id,
-                        rsvps
+                        rsvps,
                     }))
                 }
-                None => {
-                    Ok(None)
-                }
+                None => Ok(None),
             },
-            Err(error) => Err(error)
+            Err(error) => Err(error),
         }
     }
 }

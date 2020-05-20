@@ -4,8 +4,8 @@
   "description": "or, how Rustlang and AWS got me married",
   "main": "index.js",
   "dependencies": {
-    "serverless-rust": "^0.3.7",
-    "serverless": "^1.58.0"
+    "serverless": "^1.71.1",
+    "serverless-rust": "^0.3.7"
   },
   "devDependencies": {},
   "scripts": {
